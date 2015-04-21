@@ -124,8 +124,12 @@ void print_triangle (
     // given by an index into internal tables.  Apply the transform so
     // that the facet is placed correctly in the part space.
     //
+#ifdef FACET_NORMAL_NOW_COMPUTED_IN_LATEST_VERSIONS
     fs->getFacetNormal(n, f);
     stixmesh_transform_dir (n, xform, n); 
+#else
+    stixmesh_transform_dir (n, xform, fs-> getNormal(f-> facet_normal));
+#endif
     fprintf(stlfile, "facet normal %.15g %.15g %.15g\n", n[0], n[1], n[2]);
     
     fputs("    outer loop\n", stlfile);
