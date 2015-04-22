@@ -24,10 +24,11 @@
 
 #include "stp2webgl.h"
 
-enum FileFormat { FmtWebXML, FmtSTL };
+enum FileFormat { FmtWebXML, FmtTxtSTL, FmtBinSTL };
 
 extern int write_webxml (stp2webgl_opts * opts);
-extern int write_stl (stp2webgl_opts * opts);
+extern int write_ascii_stl (stp2webgl_opts * opts);
+extern int write_binary_stl (stp2webgl_opts * opts);
 
 
 const char * tool_name 	= "Facet STEP for Lightweight Viewing";
@@ -44,7 +45,8 @@ const char * opts_long =
     " visualization applications.\n"
     "\n"
     " -help\t\t - Print this help message. \n"
-    " -stl\t\t - Write STL data. \n"
+    " -stl\t\t - Write STL data in ascii text format. \n"
+    " -stlbin\t\t - Write STL data in binary format. \n"
     " -webxml\t\t - Write XML for WebGl client (default). \n"
     "\n"
     " -tol <dist>\t - Absolute linearization tolerance.  When linearizing\n"
@@ -117,7 +119,8 @@ int main(int argc, char ** argv)
 	    long_usage(argv[0]);
 	}
 
-	else if (!strcmp(arg, "-stl"))		{ fmt = FmtSTL; }
+	else if (!strcmp(arg, "-stl"))		{ fmt = FmtTxtSTL; }
+	else if (!strcmp(arg, "-stlbin"))	{ fmt = FmtBinSTL; }
 	else if (!strcmp(arg, "-webxml"))	{ fmt = FmtWebXML; }
 
 	else if (!strcmp(arg, "-tol"))
@@ -255,8 +258,11 @@ int main(int argc, char ** argv)
     // Recursively traverse the root assemblies and write out the
     // faceted data.
     switch (fmt) {
-    case FmtSTL:
-	return write_stl(&opts);
+    case FmtTxtSTL:
+	return write_ascii_stl(&opts);
+
+    case FmtBinSTL:
+	return write_binary_stl(&opts);
 
     case FmtWebXML:
 	return write_webxml(&opts);

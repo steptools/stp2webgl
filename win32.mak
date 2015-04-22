@@ -28,6 +28,7 @@ OBJECTS = \
 	stp2webgl$o \
 	facet_product$o \
 	write_stl$o \
+	write_stlbin$o \
 	write_webxml$o
 
 

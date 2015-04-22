@@ -259,6 +259,7 @@
   <ItemGroup>
     <ClCompile Include="facet_product.cxx" />
     <ClCompile Include="write_stl.cxx" />
+    <ClCompile Include="write_stlbin.cxx" />
     <ClCompile Include="write_webxml.cxx" />
     <ClCompile Include="stp2webgl.cxx" />
 

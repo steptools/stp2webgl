@@ -25,18 +25,17 @@
 #include "stp2webgl.h"
 
 
-
-// write_stl() -- write a single STL file for a STEP model.  This
-// facets everything in one pass, and then work on the cached data.
-// It then recursively walks down through any assemblies, applying
-// transforms to the facet data and writing ASCII STL.
+// write_binary_stl() -- write a single STL file for a STEP model.
+// This facets everything in one pass, and then work on the cached
+// data.  It then recursively walks down through any assemblies,
+// applying transforms to the facet data and writing Binary STL.
 //
 
 extern void facet_all_products (stp2webgl_opts * opts);
 extern int write_binary_stl (stp2webgl_opts * opts);
 
-static int write_float (FILE * file, double val);
-static int write_unsigned (FILE * file, unsigned val);
+static void write_float (FILE * file, double val);
+static void write_unsigned (FILE * file, unsigned val);
 
 static unsigned count_mesh_for_product (
     stp_product_definition * pd
@@ -323,35 +322,52 @@ static void print_mesh_for_product (
 
 
 
-// ======================================================================
+//------------------------------------------------------------
+//------------------------------------------------------------
+// Binary utilities -- Binary STL uses little endian 32bit float, and
+// little endan 32bit unsigned integer. This matches the common intel
+// usage for windows, mac and linux.  We swap big endian if working on
+// aix, sparc, hpux or ppc macs.
+//------------------------------------------------------------
+//------------------------------------------------------------
 
+#if defined(_AIX) || defined(__sparc) || defined(__hpux)
+#define BIG_ENDIAN
+#endif
 
-static int write_float (FILE * file, double val)
+#ifdef __APPLE__
+#if defined (__ppc__) || defined(__ppc64__)
+#define BIG_ENDIAN
+#endif
+#endif
+
+static void write_float (FILE * file, double val)
 {    
     union {
 	float 		float_elem;	/* assume 32bit float */
 	unsigned char  	words[4];
     } olbuf;
 
-    // binary STL assumes a little endian 32bit float.  This matches
-    // the common intel usage for windows, mac and linux.  Swap big
-    // endian if working on aix, sparc, hpux or ppc macs.
-
     olbuf.float_elem = (float) val;
-    return fwrite (olbuf.words, sizeof (unsigned char), 4, file);
+
+#ifdef BIG_ENDIAN
+    putc (olbuf.words[3], file);
+    putc (olbuf.words[2], file);
+    putc (olbuf.words[1], file);
+    putc (olbuf.words[0], file);
+#else
+    putc (olbuf.words[0], file);
+    putc (olbuf.words[1], file);
+    putc (olbuf.words[2], file);
+    putc (olbuf.words[3], file);
+#endif
 }
 
-static int write_unsigned (FILE * file, unsigned val)
+static void write_unsigned (FILE * file, unsigned val)
 {    
-    union {
-	unsigned 	unsigned_elem;	/* assume 32bit unsigned */
-	unsigned char  	words[4];
-    } olbuf;
-
-    // binary STL assumes a little endian 32bit unsigned.  This
-    // matches the common intel usage for windows, mac and linux.
-    // Swap big endian if working on aix, sparc, hpux or ppc macs.
-
-    olbuf.unsigned_elem = val;
-    return fwrite (olbuf.words, sizeof (unsigned char), 4, file);
+    // shifts work properly regardless of endian-ness
+    putc (val & 0xff, file);
+    putc ((val >> 8) & 0xff, file);
+    putc ((val >> 16) & 0xff, file);
+    putc ((val >> 24) & 0xff, file);
 }

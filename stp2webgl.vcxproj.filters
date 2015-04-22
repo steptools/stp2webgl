@@ -18,6 +18,7 @@
   <ItemGroup>
     <ClCompile Include="facet_product.cxx"><Filter>Source Files</Filter></ClCompile>
     <ClCompile Include="write_stl.cxx"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="write_stlbin.cxx"><Filter>Source Files</Filter></ClCompile>
     <ClCompile Include="write_webxml.cxx"><Filter>Source Files</Filter></ClCompile>
     <ClCompile Include="stp2webgl.cxx"><Filter>Source Files</Filter></ClCompile>
 

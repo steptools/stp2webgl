@@ -31,7 +31,7 @@
 //
 
 extern void facet_all_products (stp2webgl_opts * opts);
-extern int write_stl (stp2webgl_opts * opts);
+extern int write_ascii_stl (stp2webgl_opts * opts);
 
 static void print_mesh_for_product (
     FILE * stlfile,
@@ -41,7 +41,7 @@ static void print_mesh_for_product (
 
 // ======================================================================
 
-extern int write_stl (stp2webgl_opts * opts)
+extern int write_ascii_stl (stp2webgl_opts * opts)
 {    
     FILE * stlfile = stdout;
     unsigned i,sz;
@@ -106,7 +106,7 @@ extern int write_stl (stp2webgl_opts * opts)
 
 
 
-void print_triangle (
+static void print_triangle (
     FILE * stlfile,
     const StixMeshFacetSet * fs,
     StixMtrx &xform,
@@ -149,7 +149,7 @@ void print_triangle (
 
 
 
-void print_mesh_for_shape (
+static void print_mesh_for_shape (
     FILE * stlfile,
     stp_representation * rep,
     StixMtrx &rep_xform
@@ -215,7 +215,7 @@ void print_mesh_for_shape (
 }
 
 
-void print_mesh_for_product (
+static void print_mesh_for_product (
     FILE * stlfile,
     stp_product_definition * pd,
     StixMtrx &starting_placement
