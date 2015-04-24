@@ -41,5 +41,5 @@ ST-Developer Personal Edition
 
 Is there a different back end that you would need?  Create your own
 `write_foo.cxx` output driver by using one of the existing ones as a
-template.  See [CONTRIBUTING.md](CONTRIBUTING.md) if you would like to send a pull
-request with your changes.
+template.  See [CONTRIBUTING.md](CONTRIBUTING.md) if you would like to
+send a pull request with your changes.
