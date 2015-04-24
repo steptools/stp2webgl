@@ -5,9 +5,8 @@ your pull requests!
 
 Your contribution must be compatible with the project license (Apache
 2.0) and you must certify that you have the right to pass it on under
-that license as set forth in the <a
-href=http://developercertificate.org/>Developer Certificate of Origin
-(DCO)</a> shown below.
+that license as set forth in the Developer Certificate of Origin (DCO)
+shown below.
 
 ```text
 Developer Certificate of Origin
@@ -48,13 +47,15 @@ By making a contribution to this project, I certify that:
     this project or the open source license(s) involved.
 ```
 
-To indicate that you make the certification shown above, add a
-Signed-off-by: line with your full name and email address at the end
-of the explanation for the patch.  Calling `git commit -s` will add
-this for you.  An example line is shown below:
+To indicate that you certify the above, add a line to your description
+of the contribution saying "Signed-off-by:" followed by your real name
+and email address.  A sample line is shown below:
 
-```text
-Signed-off-by: Jane Example <jane@example.com>
+```
+Signed-off-by: Random J Developer <random@developer.example.org>
 ```
 
+You can automatically add a Signed-off-by line at the end of your
+commit log message by calling `git commit -s` or `git commit
+--signoff`.
 
