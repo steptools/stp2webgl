@@ -3,9 +3,11 @@
 Thank you for taking the time to contribute and we look forward to
 your pull requests!
 
-Your contributions must be compatible with the Apache license and
-include acceptance of the Developer Certificate of Origin (DCO) as
-shown below.  The DCO can also be found at http://developercertificate.org/
+Your contribution must be compatible with the project license (Apache
+2.0) and you must certify that you have the right to pass it on under
+that license as set forth in the <a
+href=http://developercertificate.org/>Developer Certificate of Origin
+(DCO)</a> shown below.
 
 ```text
 Developer Certificate of Origin
@@ -46,11 +48,13 @@ By making a contribution to this project, I certify that:
     this project or the open source license(s) involved.
 ```
 
-To accept the DCO, simply add this line to each commit message with
-your name and email address (`git commit -s` will do this for you):
+To indicate that you make the certification shown above, add a
+Signed-off-by: line with your full name and email address at the end
+of the explanation for the patch.  Calling `git commit -s` will add
+this for you.  An example line is shown below:
 
 ```text
 Signed-off-by: Jane Example <jane@example.com>
 ```
 
-For legal reasons, no anonymous or pseudonymous contributions are accepted
+
