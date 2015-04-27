@@ -26,6 +26,10 @@
 
 #include "stp2webgl.h"
 
+// transfor moved into stix in latest version
+#ifndef LATEST_STDEV
+#define stix_get_transform stixmesh_get_transform
+#endif
 
 // This function writes a lightweight XML description of the STEP
 // product structure and faceted shapes using the format described
@@ -649,18 +653,27 @@ static void append_facet(
     xml->endAttribute();    
 
     if (write_normal) {
-	double normal[3];
-	fs->getFacetNormal(normal, fidx);
-
+// facet_normal_now_computed_in_latest_versions
+#ifdef LATEST_STDEV
+	double fnorm[3];
+	fs->getFacetNormal(fnorm, fidx);
+#else
+	const double * fnorm = fs-> getNormal(f-> facet_normal);
+#endif
 	xml->beginAttribute("fn");
-	append_double(xml, normal[0]);    xml->text(" ");
-	append_double(xml, normal[1]);    xml->text(" ");
-	append_double(xml, normal[2]);
+	append_double(xml, fnorm[0]);    xml->text(" ");
+	append_double(xml, fnorm[1]);    xml->text(" ");
+	append_double(xml, fnorm[2]);
 	xml->endAttribute();    
     }
     
     for (unsigned j=0; j<3; j++) {
+// facet_normal_now_computed_in_latest_versions
+#ifdef LATEST_STDEV
 	const double * normal = fs->getNormal(f->normals[j]);
+#else
+	const double * normal = fs->getNormal(f->vert_normals[j]);
+#endif
 	if (normal)
 	{
 	    xml->beginElement("n");
@@ -783,7 +796,7 @@ static void export_shell(
 
 	// append the area 
 	double area = 0.;
-	for (unsigned i=0, sz=shell->getFaceCount(); i<sz; i++) {
+	for (i=0, sz=shell->getFaceCount(); i<sz; i++) {
 	    const StixMeshStpFace * face = shell->getFaceInfo(i);
 	    area += face->getArea();
 	}

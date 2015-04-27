@@ -200,7 +200,8 @@ static void print_triangle (
     // given by an index into internal tables.  Apply the transform so
     // that the facet is placed correctly in the part space.
     //
-#ifdef FACET_NORMAL_NOW_COMPUTED_IN_LATEST_VERSIONS
+//FACET_NORMAL_NOW_COMPUTED_IN_LATEST_VERSIONS    
+#ifdef LATEST_STDEV
     fs->getFacetNormal(n, f);
     stixmesh_transform_dir (n, xform, n); 
 #else
